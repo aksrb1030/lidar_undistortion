@@ -1,0 +1,41 @@
+<launch>
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find temp_lss)/rviz_config/lidar_slam.rviz"/> -->
+    
+    <!-- <include file="$(find xsens_mti_driver)/launch/display.launch"/> -->
+    
+    <include file="$(find hesai_lidar)/launch/hesai_lidar.launch"/>
+    <include file="$(find xsens_mti_driver)/launch/xsens_mti_node.launch"/>
+
+    <node name="undistortion" pkg="undistortion" type="undistortion" output="screen">
+        <param name="IMU_Mode" type="int" value="2" />
+        <param name="point_cloud_topic" value="/hesai/pandar"/>
+        <param name="imu_topic" value="/imu/data"/>
+
+        <!-- <param name="base_frame"    value="base_link"/>
+        <param name="map_frame" value="map"/>
+        <param name="publish_freq"  value="0.2"/>
+        <param name="check_freq"  value="5.0"/>
+        <param name="min_scan_distance" value="1.0"/>
+        <param name="sensor_height" value="0.5"/>
+        <param name="voxel_size" value="1.0"/>
+        <param name="time_limit" value="60.0"/>
+        
+        
+        <param name="camera_topic" value="/LWIR/Ozray/image_raw"/>
+        <param name="imu_topic" value="/imu/data11"/>
+
+        <param name="enable_ground_filter"   value="false"/>
+        <param name="enable_optimization"   value="true"/>
+        <param name="enable_save_trj"   value="true"/>
+        
+        <param name="save_trj_path"   value="/home/mobiltech/catkin_ws/src/temp_lss/param/"/>
+        <param name="enable_save_map"   value="true"/>
+        <param name="save_map_path"   value="/home/mobiltech/Desktop/SLAM_Data/"/>
+
+        <param name="color_map"   value="true"/>
+        <param name="calib_path"   value="/home/mobiltech/catkin_ws/src/temp_lss/param/lwir_calib.txt"/>
+        <param name="ui_param_path"   value="/home/mobiltech/catkin_ws/src/temp_lss/param/bagEndTime.txt"/> -->
+
+    </node>
+</launch>
+
