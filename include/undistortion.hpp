@@ -20,6 +20,11 @@ int num = 0;
 
 bool newfullCloud_ = false;
 
+using Eigen3x4d = Eigen::Matrix<double, 3, 4>;
+using Eigen3x1d = Eigen::Matrix<double, 3, 1>;
+using Eigen4x1d = Eigen::Matrix<double, 4, 1>;
+
+
 
 
 pcl::PointCloud<pcl::PointXYZI>::Ptr laserCloudFullRes_;
@@ -29,8 +34,11 @@ std::queue<sensor_msgs::PointCloud2ConstPtr> lidarMsgQueue_;
 std::mutex mutexIMUQueue_;
 std::queue<sensor_msgs::ImuConstPtr> imuMsgQueue_;
 
+Eigen::Matrix4d L2I_tm_;
+
+ros::Publisher l2I_cloud_pub;
 
 void pointCallBack(const sensor_msgs::PointCloud2ConstPtr &msg);
 void imuCallBack(const sensor_msgs::ImuConstPtr &msg);
 void process();
-void imuTimeCheck(double startTime, double endTime, std::vector<sensor_msgs::ImuConstPtr> &vimuMsg);
+bool imuTimeSync(double startTime, double endTime, std::vector<sensor_msgs::ImuConstPtr> &vimuMsg);
