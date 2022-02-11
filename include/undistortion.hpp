@@ -34,7 +34,7 @@ std::queue<sensor_msgs::PointCloud2ConstPtr> lidarMsgQueue_;
 std::mutex mutexIMUQueue_;
 std::queue<sensor_msgs::ImuConstPtr> imuMsgQueue_;
 
-Eigen::Matrix4d L2I_tm_;
+Eigen::MatrixXd L2I_tm_;
 
 ros::Publisher l2I_cloud_pub;
 

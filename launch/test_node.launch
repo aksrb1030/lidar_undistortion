@@ -24,7 +24,7 @@
 
         <!-- Extrinsic Parameter between Lidar & IMU -->
         <!-- [r_x, r_y, r_z, t_x, t_y, t_z]-->
-        <rosparam param="Extrinsic_L2I"> [0, 0, 90, 0 ,0 ,0.7]</rosparam>
+        <rosparam param="Extrinsic_L2I"> [0, 0, 90, 0 ,0 ,0.07]</rosparam>
 
         <!-- <param name="base_frame"    value="base_link"/>
         <param name="map_frame" value="map"/>

@@ -25,23 +25,23 @@ void pointCallBack(const sensor_msgs::PointCloud2ConstPtr &msg)
     // std::cout << "point_cloud->height : "<<point_cloud->height <<"\n";
     // std::cout << "point_cloud->width : "<<point_cloud->width <<"\n";
 
-
     pcl::PointCloud<pcl::PointXYZI>::Ptr l2I_points_cloud(new pcl::PointCloud<pcl::PointXYZI>());
     for (auto &p:*point_cloud)
     {
         pcl::PointXYZI pt;
 
+        // Eigen::MatrixXd lidar_points ;
+        // lidar_points << p.x , p.y, p.z, 1;
+
         Eigen4x1d lidar_points = Eigen4x1d::Identity();
         lidar_points << p.x , p.y, p.z, 1;
 
-        Eigen3x1d l2I = Rt * lidar_points;
-
-        
+        Eigen::MatrixXd l2I = L2I_tm_ * lidar_points;
 
         pt.x = l2I(0);
         pt.y = l2I(1);
         pt.z = l2I(2);
-        pt.intensity = pt.intensity;
+        pt.intensity = p.intensity;
 
         l2I_points_cloud->push_back(pt);
     }
@@ -99,17 +99,6 @@ bool imuTimeSync(double startTime, double endTime, std::vector<sensor_msgs::ImuC
         double time = tmpimumsg->header.stamp.toSec();
         if (time <= endTime && time > startTime)
         {
-            //     std::cout << std::fixed << "imuMsgQueue_.front()->header.stamp.toSec() : " << imuMsgQueue_.front()->header.stamp.toSec() <<"\n";
-            //     std::cout << std::fixed << "imuMsgQueue_.back()->header.stamp.toSec() : " << imuMsgQueue_.back()->header.stamp.toSec() <<"\n";
-            //     std::cout << "\n";
-
-            //     std::cout<< std::fixed << "startTime : " << startTime << "\n";
-            //     std::cout<< std::fixed << "endTime : " << endTime << "\n";
-            //     std::cout << "\n";
-            //     std::cout<< std::fixed << "time : " << time << "\n";
-            //     std::cout << "imuMsgQueue_.size() : " << imuMsgQueue_.size() <<"\n";
-            //     std::cout << "==================================================" << "\n";
-
             vimuMsg.push_back(tmpimumsg);
             current_time = time;
             imuMsgQueue_.pop();
@@ -149,7 +138,6 @@ bool imuTimeSync(double startTime, double endTime, std::vector<sensor_msgs::ImuC
         }
     }
     return !vimuMsg.empty();
-
 }
 
 void process()
@@ -222,18 +210,8 @@ int main(int argc, char **argv)
     
     Eigen::Translation3d L2I_tl(vecL2I[3], vecL2I[4], vecL2I[5]);
 
-    L2I_tm_ = (L2I_tl * L2I_z_rot * L2I_y_rot * L2I_x_rot).matrix();
+    L2I_tm_ = (L2I_tl * L2I_z_rot * L2I_y_rot * L2I_x_rot).matrix().matrix().block(0, 0, 3, 4);
 
-    std::cout << L2I_tm_ << "\n";
-
-    Eigen::MatrixXd testMat = L2I_tm_.matrix().block(0, 0, 3, 3);
-    std::cout << "\n";
-    std::cout << testMat << "\n";
-
-    exit(1);
-
-    // Eigen::Translation3f L2I_tl();
-    
     ros::Subscriber subFullCloud = nodeHandler.subscribe<sensor_msgs::PointCloud2>(point_cloud_topic, 10, pointCallBack);
     // ros::Subscriber sub_imu = nodeHandler.subscribe(imu_topic, 2000, imuCallBack)
 
