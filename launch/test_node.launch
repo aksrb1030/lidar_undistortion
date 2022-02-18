@@ -3,9 +3,9 @@
     
     <!-- <include file="$(find xsens_mti_driver)/launch/display.launch"/> -->
 
-<!-- 
-    <include file="$(find hesai_lidar)/launch/hesai_lidar.launch"/>
-    <include file="$(find xsens_mti_driver)/launch/xsens_mti_node.launch"/> -->
+
+    <!-- <include file="$(find hesai_lidar)/launch/hesai_lidar.launch"/> -->
+    <!-- <include file="$(find xsens_mti_driver)/launch/xsens_mti_node.launch"/> -->
 
     <node name="undistortion" pkg="undistortion" type="undistortion" output="screen">
         <param name="IMU_Mode" type="int" value="2" />
