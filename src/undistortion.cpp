@@ -338,9 +338,8 @@ bool imuTimeSync(double startTime, double endTime, std::vector<sensor_msgs::ImuC
 
     bool lastImuFlg = false;
     
-    if(lastImuMsg_->header.stamp.toSec() != 0)
+    if(lastImuMsg != 0)
     {
-        std::cout <<lastImuMsg_->header.stamp.toSec() << "\n";
         vimuMsg.push_back(lastImuMsg);
     }
 
@@ -489,10 +488,10 @@ void process()
 
                     std::cout << "vimuMsg.size() : " << vimuMsg.size() << "\n";
 
+                    std::cout << "vimmsg [0] : " << vimuMsg[0]->header.stamp.toSec() << "\n";
 
                     std::cout << "vimmsg [1] : " << vimuMsg[1]->header.stamp.toSec() << "\n";
                     std::cout << "vimmsg [E] : " << vimuMsg[vimuMsg.size() - 1]->header.stamp.toSec() << "\n";
-                    // std::cout << "vimmsg [0] : " << vimuMsg[0]->header.stamp.toSec() << "\n";
                     
 
                     std::cout << "lidar [E] :" << lastCloud_->points[lastCloud_->size() - 1].timestamp << "\n";
